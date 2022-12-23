@@ -1,25 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+/*
+ * App.tsx
+ * author: evan kirkiles
+ * created on Wed Dec 21 2022
+ * 2022 the nobot space,
+ */
+import React from "react";
+import Layout from "./components/Layout/Layout";
+import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
+import Window from "./components/Window/Window";
+import s from "./styles/App.module.scss";
+import {  APPS, DESKTOP_APPS } from "./components/_apps";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { closeApp, selectApps } from "./features/appSlice";
+import mpop from "./assets/ICONS/mpop.png";
 
 function App() {
+  const dispatch = useAppDispatch();
+  const openApps = useAppSelector(selectApps);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <div className={s.desktop}>
+        {DESKTOP_APPS.map((app) => (
+          <DesktopIcon key={app.name} app={app} />
+        ))}
+        {openApps.map((appName, i) => {
+          const app = APPS.find(({ name }) => name === appName)!;
+          return (
+            <Window
+              key={appName}
+              zIndex={i}
+              title={app.title}
+              onClose={() => dispatch(closeApp(app.name))}
+            >
+              {React.createElement(app.component)}
+            </Window>
+          );
+        })}
+        <div className={s.license_box}>
+          License activated
+          <br />
+          User: Maria Wilson Nunez
+        </div>
+        <div className={s.copyleft}>
+          <img src={mpop} alt="mpop"  className={s.mpop}/>
+          MariapopOS v4.3
+          <br />
+          Christmas 2022
+          <br />
+          By Evan for Maria
+        </div>
+      </div>
+    </Layout>
   );
 }
 

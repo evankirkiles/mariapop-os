@@ -1,0 +1,40 @@
+/*
+ * DesktopIcon.module.scss
+ * author: evan kirkiles
+ * created on Wed Dec 21 2022
+ * 2022 the nobot space, 
+ */
+@import "../../styles/mixins";
+
+$shadow-size: 3px;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  font-family: "Atari Standard";
+  // font-weight: 700;
+  font-size: 1.1em;
+  color: white;
+  text-align: center;
+  text-shadow: $shadow-size 0px black, ($shadow-size * -1) 0px black, 0px $shadow-size black, 0px ($shadow-size * -1) black;
+  width: min-content;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  width: 120px;
+  height: 120px;
+
+  &:hover {
+    // transform: rotate(-5deg);
+    transform: scale(1.1) rotate(-5deg);
+  }
+}
+
+.icon {
+  width: 80px;
+  height: 80px;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}
