@@ -1,0 +1,239 @@
+/*
+ * 2048Game.module.scss
+ * author: evan kirkiles
+ * created on Fri Dec 23 2022
+ * 2022 the nobot space, 
+ */
+
+@import "../../../styles/mixins";
+
+.container {
+  width: 100%;
+  flex: 1;
+  height: calc(100% - 1.1rem - 18px);
+  overflow: hidden;
+  position: relative;
+}
+
+.game_container {
+  touch-action: none;
+  width: 80vw;
+  aspect-ratio: 1;
+  user-select: none;
+  overflow: hidden;
+  position: relative;
+  padding: 10px;
+
+  @include respond-to("xsmall") {
+    height: 400px;
+    width: 400px;
+  }
+}
+
+.grid_container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 5px;
+  height: 100%;
+}
+
+.tile_container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  z-index: 3;
+}
+
+.tile {
+  width: calc((100% - 15px) / 4);
+  aspect-ratio: 1;
+  height: auto;
+  position: absolute;
+  transition: transform 0.1s ease-in-out;
+}
+
+.tile_inner {
+  width: 100%;
+  aspect-ratio: 1;
+
+  & img {
+    width: 100%;
+    aspect-ratio: 1;
+  }
+}
+
+@keyframes appear {
+  0% { opacity: 0; transform: scale(0); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.tile_new {
+  animation: appear 0.2s ease 0.1s;
+  animation-fill-mode: backwards;
+}
+
+@keyframes pop {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.tile_merged {
+  z-index: 20;
+  animation: pop 0.2s ease 0.1s;
+  animation-fill-mode: backwards;
+}
+
+.grid_row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.grid_cell {
+  flex: 1;
+  aspect-ratio: 1;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 5px;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.game_message {
+  display: flex;
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+  border-radius: 5px;
+  z-index: 3;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.7);
+  border: 5px solid $background2;
+  transition: opacity 0.3s ease-in-out;
+  animation: fade-in 0.8s ease 1.2s;
+  animation-fill-mode: both;
+  gap: 5px;
+
+  &.game_won, &.game_lost {
+    display: flex;
+  }
+}
+
+.keep_going {
+  display: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: $background2;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  pointer-events: none;
+  animation: fade-in 0.5s ease-in-out 2.2s;
+  animation-fill-mode: both;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+
+  .game_won & {
+    display: block;
+    pointer-events: all;
+  }
+}
+
+.retry {
+  display: none;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: $background2;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  pointer-events: none;
+  animation: fade-in 0.5s ease-in-out 2.2s;
+  animation-fill-mode: both;
+
+  &:hover {
+    transform: scale(0.9);
+  }
+
+  .game_lost & {
+    display: block;
+    pointer-events: all;
+  }
+}
+
+.metadata {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 0.5fr 1fr; 
+  grid-template-rows: repeat(2, 1fr); 
+  grid-column-gap: 5px;
+  grid-row-gap: 5px; 
+  padding: 0px 10px;
+}
+
+.score_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $background2;
+  border-radius: 5px;
+  padding: 3px;
+  position: relative;
+}
+
+.score_title {
+  font-size: 0.5rem;
+  opacity: 0.5;
+}
+
+.score {
+  font-size: 1.3rem;
+  letter-spacing: 0px;
+  font-family: "Pixeloid Sans";
+}
+
+@keyframes fade-up-add {
+  from { opacity: 1; transform: translate(-50%, 0px); }
+  to { opacity: 0; transform: translate(-50%, -20px); }
+}
+
+.score_addition {
+  position: absolute;
+  top: 0px;
+  left: 50%;
+  animation: fade-up-add 0.3s ease-out;
+  animation-fill-mode: both;
+}
+
+.instructions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  gap: 10px;
+  letter-spacing: -0.2em;
+}
+
+.restart_button {
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: $background2;
+  cursor: pointer;
+}

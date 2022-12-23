@@ -9,48 +9,58 @@ import Layout from "./components/Layout/Layout";
 import DesktopIcon from "./components/DesktopIcon/DesktopIcon";
 import Window from "./components/Window/Window";
 import s from "./styles/App.module.scss";
-import {  APPS, DESKTOP_APPS } from "./components/_apps";
+import { APPS, DESKTOP_APPS } from "./components/_apps";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { closeApp, selectApps } from "./features/appSlice";
+import { closeApp, openApp, selectApps } from "./features/appSlice";
 import mpop from "./assets/ICONS/mpop.png";
 
 function App() {
   const dispatch = useAppDispatch();
   const openApps = useAppSelector(selectApps);
   return (
-    <Layout>
-      <div className={s.desktop}>
-        {DESKTOP_APPS.map((app) => (
-          <DesktopIcon key={app.name} app={app} />
-        ))}
-        {openApps.map((appName, i) => {
-          const app = APPS.find(({ name }) => name === appName)!;
-          return (
-            <Window
-              key={appName}
-              zIndex={i}
-              title={app.title}
-              onClose={() => dispatch(closeApp(app.name))}
-            >
-              {React.createElement(app.component)}
-            </Window>
-          );
-        })}
-        <div className={s.license_box}>
-          License activated
-          <br />
-          User: Maria Wilson Nunez
+    <>
+      <Layout>
+        <div className={s.desktop}>
+          {/* <div className={s.license_box}>
+            License activated
+            <br />
+            User: Maria Wilson Nunez
+          </div> */}
+          <div className={s.copyleft}>
+            <img src={mpop} alt="mpop" className={s.mpop} />
+            MariapopOS v4.3
+            <br />
+            Christmas 2022
+            <br />
+            By Evan for Maria
+          </div>
+          <div className={s.icon_container}>
+            {DESKTOP_APPS.map((app) => (
+              <DesktopIcon key={app.name} app={app} />
+            ))}
+          </div>
+          {openApps.map((appName, i) => {
+            const app = APPS.find(({ name }) => name === appName)!;
+            return (
+              <Window
+                key={appName}
+                zIndex={i}
+                title={app.title}
+                resizable={!app.notResizable}
+                onClose={() => dispatch(closeApp(app.name))}
+                onClick={
+                  i !== openApps.length - 1
+                    ? () => dispatch(openApp(app.name))
+                    : undefined
+                }
+              >
+                {React.createElement(app.component)}
+              </Window>
+            );
+          })}
         </div>
-        <div className={s.copyleft}>
-          <img src={mpop} alt="mpop"  className={s.mpop}/>
-          MariapopOS v4.3
-          <br />
-          Christmas 2022
-          <br />
-          By Evan for Maria
-        </div>
-      </div>
-    </Layout>
+      </Layout>
+    </>
   );
 }
 

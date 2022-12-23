@@ -6,7 +6,7 @@ const START_HEIGHT = 200;
 const LEFT_G = 0.1;
 const RIGHT_G = 0.9;
 const SPACES_Q = 50;
-const STROKE_COLOR = '#d0d0d0';
+const STROKE_COLOR = '#303030';
 
 const GridBackground: React.FC<{}> = React.memo(() => {
 

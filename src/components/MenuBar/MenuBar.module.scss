@@ -40,3 +40,10 @@
   align-items: center;
   gap: 10px;
 }
+
+.icon {
+  height: 1.5rem;
+  width: auto;
+  image-rendering: crisp-edges;
+  image-rendering: pixelated;
+}

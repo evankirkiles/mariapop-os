@@ -11,12 +11,10 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './reducers';
-import appSlice from '../features/appSlice';
 
 const persistConfig = {
   key: 'mariapop-os',
   storage,
-  whitelist: [appSlice.name, 'user'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
