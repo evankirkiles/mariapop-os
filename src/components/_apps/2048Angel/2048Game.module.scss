@@ -184,6 +184,7 @@
   grid-column-gap: 5px;
   grid-row-gap: 5px; 
   padding: 0px 10px;
+  max-width: 400px;
 }
 
 .score_container {
@@ -195,6 +196,8 @@
   border-radius: 5px;
   padding: 3px;
   position: relative;
+  overflow: hidden;
+  text-align: center;
 }
 
 .score_title {

@@ -1,0 +1,124 @@
+/*
+ * ChocoCal.module.scss
+ * author: evan kirkiles
+ * created on Sun Dec 25 2022
+ * 2022 the nobot space, 
+ */
+@import "../../../styles/mixins";
+
+ .container {
+  padding: 10px;
+ }
+
+.calendar {
+  width: 500px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: min-content repeat(6, 1fr);
+  border: 3px solid black;
+}
+
+.calendar_header {
+  text-align: center;
+  font-weight: 700;
+  border-bottom: 2px solid black;
+  border-right: 1px solid black;
+  padding: 3px 10px;
+}
+
+.container_cell {
+  aspect-ratio: 1;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    background-color: $background2;
+  }
+
+  &__unset {
+    background-color: rgba(0,0,0,0.2);
+    pointer-events: none;
+  }
+}
+
+.calendar_metadata {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0px;
+  gap: 5px;
+  letter-spacing: -3px;
+}
+
+.calendar_movement {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid black;
+  gap: 5px;
+}
+
+.calendar_button {
+  background-color: $background2;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 3px 5px;
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+
+  &:hover {
+    background-color: $button;
+  }
+
+  &:first-of-type {
+    border-right: 4px solid black;
+  }
+
+  &:last-of-type {
+    border-left: 4px solid black;
+  }
+}
+
+.calendar_day {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 0px;
+  left: 2px;
+  transform: translate(-5px, -5px);
+  border-radius: 50%;
+
+  &__current {
+    border: 3px dotted red;
+  }
+}
+
+.calendar_day_info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 5px 10px;
+  height: 100px;
+  margin-top: 5px;
+  border: 5px dotted $foreground2;
+  background-color: $background2;
+  font-family: "Pixeloid Sans";
+  letter-spacing: 0px;
+  font-style: italic;
+}
+
+.selected_day {
+  font-family: "Pixeloid Sans";
+  opacity: 0.5;
+}

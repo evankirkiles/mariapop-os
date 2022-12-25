@@ -6,15 +6,18 @@
  */
 import s from "./Window.module.scss";
 import { Rnd } from "react-rnd";
-import { MouseEventHandler, useEffect, useRef } from "react";
+import { MouseEventHandler, useRef } from "react";
+import { OpenWindow } from "../../features/appSlice";
 
 type WindowProps = {
   title: string;
   resizable?: boolean;
   zIndex?: number;
   children?: React.ReactNode;
+  defaultPos?: OpenWindow["position"];
   onClick?: () => void;
   onClose?: () => void;
+  onTransform?: (transform: NonNullable<OpenWindow["position"]>) => void;
 };
 
 export default function Window({
@@ -24,6 +27,8 @@ export default function Window({
   children,
   onClick,
   onClose,
+  onTransform,
+  defaultPos,
 }: WindowProps) {
   const ref = useRef<Rnd>(null);
 
@@ -64,27 +69,28 @@ export default function Window({
     }
   };
 
-  // if not resizable, make sure to set RnD position (default doesn't work)
-  useEffect(() => {
-    if (!resizable && ref.current) {
-      ref.current.updatePosition({
-        x: (window.innerWidth - 10) * 0.1,
-        y: (window.innerHeight - 300) * 0.1,
-      });
+  // on transform finish, submit the current state
+  const transformFinishListener = () => {
+    if (!ref.current || !onTransform) return;
+    const { x, y } = ref.current.getDraggablePosition();
+    let { width, height }: { width: string | number; height: string | number } =
+      ref.current.getSelfElement()!.getBoundingClientRect();
+    if (!resizable) {
+      width = "auto";
+      height = "auto";
     }
-  }, []);
+    onTransform({ x, y, width, height });
+  };
 
   return (
     <Rnd
       default={
-        resizable
-          ? {
-              x: (window.innerWidth - 10) * 0.1,
-              y: (window.innerHeight - 300) * 0.1,
-              width: window.innerWidth * 0.8,
-              height: window.innerHeight * 0.8,
-            }
-          : undefined
+        defaultPos || {
+          x: (window.innerWidth - 10) * 0.1,
+          y: (window.innerHeight - 300) * 0.1,
+          width: resizable ? window.innerWidth * 0.8 : "auto",
+          height: resizable ? window.innerHeight * 0.8 : "auto",
+        }
       }
       dragHandleClassName={s.title_bar}
       bounds={"parent"}
@@ -93,6 +99,8 @@ export default function Window({
       style={{
         zIndex,
       }}
+      onDragStop={transformFinishListener}
+      onResizeStop={transformFinishListener}
       onMouseDown={onClick}
       enableResizing={resizable}
     >
@@ -106,6 +114,13 @@ export default function Window({
           ></div>
         </div>
         <div className={s.title}>{title}</div>
+        <div className={s.popout_button_container}>
+          <div
+            className={s.popout_button}
+            onClick={onClose}
+            onTouchStart={onClose}
+          ></div>
+        </div>
       </div>
       {children}
     </Rnd>

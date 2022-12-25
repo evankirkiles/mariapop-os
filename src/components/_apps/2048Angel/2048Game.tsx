@@ -7,12 +7,13 @@
 import { useEffect, useRef } from "react";
 import s from "./2048Game.module.scss";
 import GameManager from "./game/GameManager";
+import React from "react";
 
 type Game2048Props = {
   size: number;
 };
 
-export default function Game2048({ size = 4 }: Game2048Props) {
+export default React.memo(function Game2048({ size = 4 }: Game2048Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const tileContainer = useRef<HTMLDivElement>(null);
   const scoreContainer = useRef<HTMLDivElement>(null);
@@ -110,4 +111,4 @@ export default function Game2048({ size = 4 }: Game2048Props) {
       </div>
     </>
   );
-}
+});

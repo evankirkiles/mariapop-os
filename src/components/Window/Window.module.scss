@@ -113,3 +113,24 @@
     background-color: red;
   }
 }
+
+.popout_button_container {
+  @extend .close_button_container;
+  left: unset;
+  right: 10px;
+}
+
+.popout_button {
+  border: 3px solid $foreground;
+  aspect-ratio: 1;
+  height: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out, background-color 0.1s ease-in-out;
+  background-color: $background;
+
+  &:hover {
+    transform: scale(1.5);
+    background-color: green;
+  }
+
+}

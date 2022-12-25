@@ -11,7 +11,7 @@ import Window from "./components/Window/Window";
 import s from "./styles/App.module.scss";
 import { APPS, DESKTOP_APPS } from "./components/_apps";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
-import { closeApp, openApp, selectApps } from "./features/appSlice";
+import { closeApp, openApp, selectApps, setAppPosition } from "./features/appSlice";
 import mpop from "./assets/ICONS/mpop.png";
 
 function App() {
@@ -39,22 +39,26 @@ function App() {
               <DesktopIcon key={app.name} app={app} />
             ))}
           </div>
-          {openApps.map((appName, i) => {
-            const app = APPS.find(({ name }) => name === appName)!;
+          {openApps.map(({ app, position }, i) => {
+            const appInst = APPS.find(({ name }) => name === app)!;
             return (
               <Window
-                key={appName}
+                key={app}
                 zIndex={i}
-                title={app.title}
-                resizable={!app.notResizable}
-                onClose={() => dispatch(closeApp(app.name))}
+                title={appInst.title}
+                resizable={!appInst.notResizable}
+                defaultPos={position}
+                onTransform={(pos) => {
+                  dispatch(setAppPosition({ app, position: pos}));
+                }}
+                onClose={() => dispatch(closeApp(app))}
                 onClick={
                   i !== openApps.length - 1
-                    ? () => dispatch(openApp(app.name))
+                    ? () => dispatch(openApp(app))
                     : undefined
                 }
               >
-                {React.createElement(app.component)}
+                {React.createElement(appInst.component)}
               </Window>
             );
           })}

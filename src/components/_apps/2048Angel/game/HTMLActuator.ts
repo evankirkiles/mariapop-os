@@ -87,7 +87,7 @@ export default class HTMLActuator {
     }
   }
 
-  addTile(tile: Tile) {
+  addTile(tile: Tile, leaving = false) {
     const wrapper = document.createElement("div");
     const inner = document.createElement("div");
     const img = document.createElement("img");

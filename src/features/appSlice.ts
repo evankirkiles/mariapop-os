@@ -12,8 +12,18 @@ import { RootState } from '../app/store';
 /*                                  CONSTANTS                                 */
 /* -------------------------------------------------------------------------- */
 
+export interface OpenWindow {
+  app: string;
+  position?: {
+    x: number;
+    y: number;
+    width: number | string;
+    height: number | string;
+  }
+};
+
 export type AppState = {
-  openApps: string[];
+  openApps: OpenWindow[];
 };
 
 const initialState: AppState = {
@@ -30,27 +40,35 @@ export const appSlice = createSlice({
   reducers: {
     // opens an app
     openApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.indexOf(action.payload);
+      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
       if (indexOf === -1) {
-        state.openApps.push(action.payload);
+        state.openApps.push({ app: action.payload });
       } else if (indexOf !== state.openApps.length - 1) {
         state.openApps.push(state.openApps.splice(indexOf, 1)[0]);
       }
     },
     // closes an app
     closeApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.indexOf(action.payload);
+      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
       if (indexOf !== -1) {
         state.openApps.splice(indexOf, 1);
       }
     },
     // makes an app active, bringing it to the front of the render stack
     selectApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.indexOf(action.payload);
+      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
       if (indexOf !== -1) {
         state.openApps.push(state.openApps.splice(indexOf, 1)[0]);
       }
     },
+    // saves an app's position (called on resize finish)
+    setAppPosition: (state: AppState, action: PayloadAction<OpenWindow>) => {
+      const indexOf = state.openApps.findIndex(({app}) => app === action.payload.app);
+      if (indexOf !== -1) {
+        state.openApps[indexOf] = action.payload;
+      }
+
+    }
   },
 });
 
@@ -58,6 +76,6 @@ export const appSlice = createSlice({
 /*                                   EXPORTS                                  */
 /* -------------------------------------------------------------------------- */
 
-export const { openApp, closeApp, selectApp } = appSlice.actions;
-export const selectApps = (state: RootState): string[] => state.apps.openApps;
+export const { openApp, closeApp, selectApp, setAppPosition } = appSlice.actions;
+export const selectApps = (state: RootState): OpenWindow[] => state.apps.openApps;
 export default appSlice.reducer;

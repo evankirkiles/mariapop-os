@@ -9,7 +9,9 @@ import ExplorerApp from "./SpacePlace/SpacePlace";
 import AngelGameApp from "./2048Angel/2048Angel";
 import LoveLinkApp from "./LoveLink/LoveLink";
 import SettingsApp from "./Settings/Settings";
+import OddsAndEndsApp from "./OddsAndEnds/OddsAndEnds";
 import { Permission } from "../../features/userSlice";
+import ChocoCalApp from "./ChocoCal/ChocoCal";
 
 export interface AppProps {
   width: number;
@@ -24,11 +26,15 @@ export type App = {
   component: React.FC<AppProps>;
   permissions: Permission;
 };
-
-export const APPS = [AngelGameApp, ExplorerApp, LoveLinkApp, SettingsApp];
 export const DESKTOP_APPS = [
   AngelGameApp,
+  ChocoCalApp,
   ExplorerApp,
   LoveLinkApp,
   SettingsApp,
+  OddsAndEndsApp,
+];
+
+export const APPS = [
+  ...DESKTOP_APPS
 ];
