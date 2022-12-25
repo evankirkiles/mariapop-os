@@ -89,6 +89,7 @@ export default function Window({
   // maximize (pop up in own window)
   const popupListener = () => {
     if (!ref.current) return;
+    const { x, y } = ref.current.getDraggablePosition();
     let { width, height }: { width: string | number; height: string | number } =
       ref.current.getSelfElement()!.getBoundingClientRect();
     window.open(
@@ -96,7 +97,7 @@ export default function Window({
       title,
       `popup=yes,scrollbars=no,resizable=${
         resizable ? "yes" : "no"
-      },location=no,toolbar=no,menubar=no,width=${width}px,height=${height + 22}px`
+      },location=no,toolbar=no,menubar=no,width=${width}px,height=${height + 22}px,left=${x}px,top=${y}px`
     );
     if (onClose) onClose();
   };
