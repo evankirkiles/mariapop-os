@@ -8,7 +8,7 @@
 
 import { App, AppProps } from ".."  
 import icon from "../../../assets/GIFS/eeprom.gif";
-import { Permission } from "../../../features/userSlice";
+import { Permission } from "../../../util/permissions";
 const OddsAndEndsApp: React.FC<AppProps> = () => {
   return (
     <div>
@@ -21,6 +21,7 @@ export default {
   icon: icon,
   title: "Odds & Ends",
   name: 'OddsAndEnds',
+  popuppable: true,
   component: OddsAndEndsApp,
   permissions: Permission.OP
 } as App;

@@ -55,30 +55,24 @@
   width: 100%;
   height: calc(100% - 15px);
   position: absolute;
-  z-index: -1;
-  top: 8px;
+  top: 9px;
   left: 0;
-  background-color: black;
-  background-image: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 1) calc(14%),
-    rgba(255, 255, 255, 1) calc(15%),
-    rgba(255, 255, 255, 1) calc(28%),
-    rgba(0, 0, 0, 1) calc(29%),
-    rgba(0, 0, 0, 1) calc(14%),
-    rgba(255, 255, 255, 1) calc(15%),
-    rgba(255, 255, 255, 1) calc(28%),
-    rgba(0, 0, 0, 1) calc(29%),
-    rgba(0, 0, 0, 1) calc(42%),
-    rgba(255, 255, 255, 1) calc(43%),
-    rgba(255, 255, 255, 1) calc(56%),
-    rgba(0, 0, 0, 1) calc(57%),
-    rgba(0, 0, 0, 1) calc(70%),
-    rgba(255, 255, 255, 1) calc(71%),
-    rgba(255, 255, 255, 1) calc(84%),
-    rgba(0, 0, 0, 1) calc(85%),
-    rgba(0, 0, 0, 1) calc(100%),
-  );
+  border: 2px solid black;
+  border-left: none;
+  border-right: none;
+  background-color: $button;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title_bar_background_inner {
+  height: 50%;
+  width: 100%;
+  border: 2px solid black;
+  border-left: none;
+  border-right: none;
 }
 
 .title {

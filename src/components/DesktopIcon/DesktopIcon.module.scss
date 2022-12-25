@@ -8,6 +8,11 @@
 
 $shadow-size: 3px;
 
+@keyframes fade-up {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0px); }
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -26,6 +31,7 @@ $shadow-size: 3px;
   width: 120px;
   height: 120px;
   transform: scale(1);
+  animation: fade-up 0.3s ease-in-out;
 
   &:hover {
     // transform: rotate(-5deg);

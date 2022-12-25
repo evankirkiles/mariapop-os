@@ -85,6 +85,10 @@
   animation-fill-mode: backwards;
 }
 
+.tile_super {
+  background: radial-gradient($background2, clear);
+}
+
 .grid_row {
   flex: 1;
   display: flex;
@@ -96,7 +100,8 @@
 .grid_cell {
   flex: 1;
   aspect-ratio: 1;
-  background-color: rgba(0,0,0,0.3);
+  background-color: $background2;
+  opacity: 0.5;
   border-radius: 5px;
 }
 

@@ -12,6 +12,7 @@ import { OpenWindow } from "../../features/appSlice";
 type WindowProps = {
   title: string;
   popupURL?: string;
+  closable?: boolean;
   resizable?: boolean;
   zIndex?: number;
   draggable?: boolean;
@@ -26,6 +27,7 @@ export default function Window({
   title,
   popupURL,
   resizable,
+  closable = true,
   draggable = true,
   zIndex,
   children,
@@ -126,8 +128,10 @@ export default function Window({
       disableDragging={!draggable}
     >
       <div className={s.title_bar} onClick={doubleClickListener}>
-        <div className={s.title_bar_background}></div>
-        {onClose ? (
+        <div className={s.title_bar_background}>
+          <div className={s.title_bar_background_inner}></div>
+        </div>
+        {closable && onClose ? (
           <div className={s.close_button_container}>
             <div
               className={s.close_button}

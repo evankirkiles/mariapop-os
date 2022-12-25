@@ -2,19 +2,30 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { QueryClient, QueryClientProvider } from 'react-query';
 import "./styles/globals.scss";
 import "./styles/fonts.scss";
-import App from "./App";
+import Desktop from "./views/Desktop";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { persistedStore, store } from "./app/store";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { APPS } from "./components/_apps";
 import Window from "./components/Window/Window";
+import supabase from "./api/supabase";
+import SetPasswordView from "./views/SetPassword";
+
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Desktop />,
+  },
+  {
+    path: "/set_password",
+    element: <SetPasswordView />
   },
   ...APPS.map(({ name, title, component }) => ({
     path: name,
@@ -38,7 +49,11 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistedStore}>
-        <RouterProvider router={router} />
+        <SessionContextProvider supabaseClient={supabase}>
+          <QueryClientProvider client={queryClient} contextSharing={true}>
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+        </SessionContextProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

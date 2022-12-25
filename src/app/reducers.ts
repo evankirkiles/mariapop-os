@@ -6,7 +6,7 @@ import { appSlice } from '../features/appSlice';
 const rootReducer = combineReducers({
   // theme: themeReducer,
   // user: userReducer,
-  [appSlice.name]: appSlice.reducer,
+  [appSlice.name]: appSlice.reducer
 });
 
 export default rootReducer;

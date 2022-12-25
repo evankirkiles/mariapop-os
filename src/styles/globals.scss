@@ -54,3 +54,8 @@ a {
 ::-webkit-scrollbar {
   display: none; /* for Chrome, Safari, and Opera */
 }
+
+::placeholder {
+  color: var(--foreground-2-color);
+  opacity: 0.5;
+}

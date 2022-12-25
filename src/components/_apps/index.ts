@@ -10,8 +10,10 @@ import AngelGameApp from "./2048Angel/2048Angel";
 import LoveLinkApp from "./LoveLink/LoveLink";
 import SettingsApp from "./Settings/Settings";
 import OddsAndEndsApp from "./OddsAndEnds/OddsAndEnds";
-import { Permission } from "../../features/userSlice";
+import { Permission } from "../../util/permissions";
 import ChocoCalApp from "./ChocoCal/ChocoCal";
+import MashaMail from "./MashaMail/MashaMail";
+import LoginApp from "./Login/Login";
 
 export interface AppProps {
   width: number;
@@ -23,6 +25,7 @@ export type App = {
   title: string;
   popuppable?: boolean;
   description?: string;
+  notClosable?: boolean;
   notResizable?: boolean;
   component: React.FC<AppProps>;
   permissions: Permission;
@@ -30,6 +33,7 @@ export type App = {
 export const DESKTOP_APPS = [
   AngelGameApp,
   ChocoCalApp,
+  MashaMail,
   ExplorerApp,
   LoveLinkApp,
   SettingsApp,
@@ -37,5 +41,6 @@ export const DESKTOP_APPS = [
 ];
 
 export const APPS = [
-  ...DESKTOP_APPS
+  ...DESKTOP_APPS,
+  LoginApp
 ];

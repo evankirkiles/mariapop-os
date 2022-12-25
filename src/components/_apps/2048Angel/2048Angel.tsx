@@ -6,7 +6,7 @@
  */
 
 import { App, AppProps } from "..";
-import { Permission } from "../../../features/userSlice";
+import { Permission } from "../../../util/permissions";
 import floppy from "../../../assets/ICONS/pxArt.png";
 import Game2048 from "./2048Game";
 import s from "./2048Game.module.scss";

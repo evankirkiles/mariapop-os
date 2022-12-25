@@ -7,7 +7,7 @@
 
 import { App, AppProps } from ".."  
 import icon from "../../../assets/GIFS/acc.gif";
-import { Permission } from "../../../features/userSlice";
+import { Permission } from "../../../util/permissions";
 const SettingsApp: React.FC<AppProps> = () => {
   return (
     <div>

@@ -5,16 +5,11 @@
  * 2022 the nobot space,
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { App, AppProps } from "..";
-import icon from "../../../assets/GIFS/choco.png";
-import { Permission } from "../../../features/userSlice";
+import icon from "../../../assets/GIFS/doki.jpg";
+import { Permission } from "../../../util/permissions";
 import s from "./ChocoCal.module.scss";
-
-interface MonthInformation {
-  daysInMonth: number;
-  monthStart: number;
-}
 
 function calculateMonthInfo(date: Date) {
   return {
@@ -34,15 +29,26 @@ const ChocoCalApp: React.FC<AppProps> = () => {
   let ind = -monthStart + 1;
   for (let i = 0; i < 6; i++) {
     for (let j = 0; j < 7; j++) {
+      // if is a valid day of the month
       if (ind >= 1 && ind <= daysInMonth) {
         const thisInd = ind;
+        // check if it is the current day
         const isCurrentDay =
           viewDate.getFullYear() === current_date.getFullYear() &&
           viewDate.getMonth() === current_date.getMonth() &&
           ind === current_date.getDate();
+        // also check if it is the selected day
+        const isSelectedDay =
+          selectedDate &&
+          viewDate.getFullYear() === selectedDate.getFullYear() &&
+          viewDate.getMonth() === selectedDate.getMonth() &&
+          ind === selectedDate.getDate();
+        // update styles accordingly
         month_cells.push(
           <div
-            className={s.container_cell}
+            className={`${s.container_cell} ${
+              isSelectedDay ? s.container_cell__selected : ""
+            }`}
             key={ind}
             onClick={() => {
               setSelectedDate(
@@ -59,6 +65,7 @@ const ChocoCalApp: React.FC<AppProps> = () => {
             </div>
           </div>
         );
+        // otherwise just push the default square
       } else {
         month_cells.push(
           <div
@@ -102,7 +109,9 @@ const ChocoCalApp: React.FC<AppProps> = () => {
           </div>
         </div>
         <div className={s.selected_day}>
-          {selectedDate?.toLocaleDateString()}
+          {selectedDate?.toLocaleDateString("default", {
+            dateStyle: "full",
+          })}
         </div>
       </div>
       <div className={s.calendar_day_info}>
@@ -114,8 +123,8 @@ const ChocoCalApp: React.FC<AppProps> = () => {
 
 export default {
   icon: icon,
-  title: "Choco Cal",
-  name: "ChocoCal",
+  title: "Doki Cal",
+  name: "DokiCal",
   popuppable: true,
   component: ChocoCalApp,
   notResizable: true,

@@ -7,7 +7,7 @@
 
 import { App, AppProps } from ".."  
 import icon from "../../../assets/GIFS/network.gif";
-import { Permission } from "../../../features/userSlice";
+import { Permission } from "../../../util/permissions";
 const LoveLinkApp: React.FC<AppProps> = () => {
   return (
     <div>

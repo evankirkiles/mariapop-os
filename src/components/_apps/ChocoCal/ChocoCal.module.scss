@@ -24,6 +24,7 @@
   border-bottom: 2px solid black;
   border-right: 1px solid black;
   padding: 3px 10px;
+  background-color: $background2;
 }
 
 .container_cell {
@@ -34,6 +35,10 @@
 
   &:hover {
     background-color: $background2;
+  }
+
+  &__selected {
+    background-color: $button !important;
   }
 
   &__unset {
@@ -110,6 +115,7 @@
   align-items: flex-start;
   padding: 5px 10px;
   height: 100px;
+  overflow-y: scroll;
   margin-top: 5px;
   border: 5px dotted $foreground2;
   background-color: $background2;
@@ -120,5 +126,8 @@
 
 .selected_day {
   font-family: "Pixeloid Sans";
-  opacity: 0.5;
+  border: 3px solid black;
+  letter-spacing: 0px;
+  padding: 5px 10px;
+  background-color: $button;
 }

@@ -6,7 +6,7 @@
  */
 
 import { App, AppProps } from ".."
-import { Permission } from "../../../features/userSlice";
+import { Permission } from "../../../util/permissions";
 import icon from "../../../assets/GIFS/home.gif";
 
 const Explorer: React.FC<AppProps> = () => {

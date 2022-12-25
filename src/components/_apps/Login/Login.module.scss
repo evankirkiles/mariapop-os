@@ -1,0 +1,75 @@
+/*
+ * Login.module.scss
+ * author: evan kirkiles
+ * created on Sun Dec 25 2022
+ * 2022 the nobot space, 
+ */
+ @import "../../../styles/mixins";
+
+.container {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 320px;
+  text-align: center;
+  font-family: "Pixeloid Sans";
+  letter-spacing: 0px;
+  gap: 5px;
+}
+
+.mpop_logo {
+  width: 200px;
+  height: 200px;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.horizontal_rule {
+  border-top: 1px solid $foreground2;
+  width: 100%;
+  margin: 5px 0px;
+}
+
+.input_label {
+  font-size: 0.8rem;
+  width: 100%;
+  text-align: left;
+}
+
+.input_field {
+  width: 100%;
+  background-color: $background2;
+  border: 2px dotted black;
+  padding: 5px 10px;
+  color: $foreground;
+  font-size: 1.6rem;
+}
+
+.submit_button {
+  width: 100%;
+  padding: 5px 10px;
+  background-color: $button;
+  border: 2px solid $foreground2;
+  font-family: "Atari Standard";
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: transform 0.1s ease-in-out;
+
+  &:hover {
+    transform: scale(0.95);
+  }
+}
+
+@keyframes fadedown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0px); }
+}
+
+.error_message {
+  letter-spacing: 0px;
+  color: red;
+  animation: fadedown 0.3s ease-in-out;
+}
