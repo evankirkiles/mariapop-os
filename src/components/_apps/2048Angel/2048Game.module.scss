@@ -13,21 +13,17 @@
   height: calc(100% - 1.1rem - 18px);
   overflow: hidden;
   position: relative;
+  background-color: $background;
 }
 
 .game_container {
   touch-action: none;
-  width: 80vw;
-  aspect-ratio: 1;
   user-select: none;
   overflow: hidden;
   position: relative;
   padding: 10px;
-
-  @include respond-to("xsmall") {
-    height: 400px;
-    width: 400px;
-  }
+  height: 400px;
+  width: 400px;
 }
 
 .grid_container {
@@ -196,7 +192,6 @@
   border-radius: 5px;
   padding: 3px;
   position: relative;
-  overflow: hidden;
   text-align: center;
 }
 
@@ -227,16 +222,25 @@
 .instructions {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  padding: 5px;
+  padding: 5px 10px;
   gap: 10px;
   letter-spacing: -0.2em;
+  margin-bottom: 5px;
 }
 
 .restart_button {
-  padding: 5px 10px;
+  padding: 8px 10px;
   border-radius: 5px;
-  background-color: $background2;
+  background-color: $button;
+  letter-spacing: -3px;
+  font-weight: 700;
   cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+  border: 3px solid $background2;
+
+  &:hover {
+    transform: scale(0.95);
+  }
 }

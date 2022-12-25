@@ -11,8 +11,10 @@ import { OpenWindow } from "../../features/appSlice";
 
 type WindowProps = {
   title: string;
+  popupURL?: string;
   resizable?: boolean;
   zIndex?: number;
+  draggable?: boolean;
   children?: React.ReactNode;
   defaultPos?: OpenWindow["position"];
   onClick?: () => void;
@@ -22,7 +24,9 @@ type WindowProps = {
 
 export default function Window({
   title,
+  popupURL,
   resizable,
+  draggable = true,
   zIndex,
   children,
   onClick,
@@ -82,6 +86,21 @@ export default function Window({
     onTransform({ x, y, width, height });
   };
 
+  // maximize (pop up in own window)
+  const popupListener = () => {
+    if (!ref.current) return;
+    let { width, height }: { width: string | number; height: string | number } =
+      ref.current.getSelfElement()!.getBoundingClientRect();
+    window.open(
+      popupURL,
+      title,
+      `popup=yes,scrollbars=no,resizable=${
+        resizable ? "yes" : "no"
+      },location=no,toolbar=no,menubar=no,width=${width}px,height=${height + 22}px`
+    );
+    if (onClose) onClose();
+  };
+
   return (
     <Rnd
       default={
@@ -103,24 +122,29 @@ export default function Window({
       onResizeStop={transformFinishListener}
       onMouseDown={onClick}
       enableResizing={resizable}
+      disableDragging={!draggable}
     >
       <div className={s.title_bar} onClick={doubleClickListener}>
         <div className={s.title_bar_background}></div>
-        <div className={s.close_button_container}>
-          <div
-            className={s.close_button}
-            onClick={onClose}
-            onTouchStart={onClose}
-          ></div>
-        </div>
+        {onClose ? (
+          <div className={s.close_button_container}>
+            <div
+              className={s.close_button}
+              onClick={onClose}
+              onTouchStart={onClose}
+            ></div>
+          </div>
+        ) : null}
         <div className={s.title}>{title}</div>
-        <div className={s.popout_button_container}>
-          <div
-            className={s.popout_button}
-            onClick={onClose}
-            onTouchStart={onClose}
-          ></div>
-        </div>
+        {popupURL ? (
+          <div className={s.popout_button_container}>
+            <div
+              className={s.popout_button}
+              onClick={popupListener}
+              onTouchStart={popupListener}
+            ></div>
+          </div>
+        ) : null}
       </div>
       {children}
     </Rnd>

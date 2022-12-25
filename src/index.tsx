@@ -7,6 +7,29 @@ import "./styles/fonts.scss";
 import App from "./App";
 import { persistedStore, store } from "./app/store";
 import reportWebVitals from "./reportWebVitals";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { APPS } from "./components/_apps";
+import Window from "./components/Window/Window";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <App />,
+  },
+  ...APPS.map(({ name, title, component }) => ({
+    path: name,
+    element: (
+      <Window
+        draggable={false}
+        resizable={false}
+        title={title}
+        defaultPos={{ x: 0, y: 0, width: "auto", height: "auto" }}
+      >
+        {React.createElement(component)}
+      </Window>
+    ),
+  })),
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,7 +38,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistedStore}>
-        <App />
+        <RouterProvider router={router} />
       </PersistGate>
     </Provider>
   </React.StrictMode>

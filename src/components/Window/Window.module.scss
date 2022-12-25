@@ -33,6 +33,7 @@
   background-color: $background;
   pointer-events: all;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+  will-change: contents;
   // animation: fadein 0.3s ease-in-out;
 }
 

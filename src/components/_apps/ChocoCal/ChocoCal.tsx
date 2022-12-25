@@ -116,6 +116,7 @@ export default {
   icon: icon,
   title: "Choco Cal",
   name: "ChocoCal",
+  popuppable: true,
   component: ChocoCalApp,
   notResizable: true,
   permissions: Permission.OP,

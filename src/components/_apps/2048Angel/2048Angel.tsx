@@ -21,6 +21,7 @@ export default {
   icon: floppy,
   title: "2048 Angel",
   name: "2048angel",
+  popuppable: true,
   notResizable: true,
   component: AngelGame,
   permissions: Permission.BASIC,

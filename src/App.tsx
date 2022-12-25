@@ -46,6 +46,7 @@ function App() {
                 key={app}
                 zIndex={i}
                 title={appInst.title}
+                popupURL={appInst.popuppable ? `/${appInst.name}` : undefined}
                 resizable={!appInst.notResizable}
                 defaultPos={position}
                 onTransform={(pos) => {

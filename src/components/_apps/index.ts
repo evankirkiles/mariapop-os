@@ -21,6 +21,7 @@ export type App = {
   icon: string;
   name: string;
   title: string;
+  popuppable?: boolean;
   description?: string;
   notResizable?: boolean;
   component: React.FC<AppProps>;
