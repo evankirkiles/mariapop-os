@@ -15,6 +15,7 @@ import { getProfile, profileKeys } from "../api/models/profiles";
  */
 export default function useProfile() {
   const user = useUser();
+  console.log(user);
   const profile = useQuery(
     profileKeys.getSelf(),
     () => getProfile(user!.id),

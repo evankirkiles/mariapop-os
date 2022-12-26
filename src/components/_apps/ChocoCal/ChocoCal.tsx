@@ -23,7 +23,7 @@ function calculateMonthInfo(date: Date) {
 
 const ChocoCalApp: React.FC<AppProps> = () => {
   const [viewDate, setViewDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const { monthStart, daysInMonth } = calculateMonthInfo(viewDate);
 
   // get the user's calendar events
