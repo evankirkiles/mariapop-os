@@ -32,6 +32,11 @@
   border: 1px solid black;
   cursor: pointer;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 5px;
 
   &:hover {
     background-color: $background2;
@@ -95,16 +100,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 5px;
-  aspect-ratio: 1;
   position: absolute;
   top: 0px;
   left: 2px;
-  transform: translate(-5px, -5px);
   border-radius: 50%;
 
   &__current {
-    border: 3px dotted red;
+    border: 3px solid $button;
   }
 }
 
@@ -113,8 +115,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding: 5px 10px;
-  height: 100px;
+  padding: 10px;
+  height: 120px;
   overflow-y: scroll;
   margin-top: 5px;
   border: 5px dotted $foreground2;
@@ -122,6 +124,7 @@
   font-family: "Pixeloid Sans";
   letter-spacing: 0px;
   font-style: italic;
+  gap: 5px;
 }
 
 .selected_day {
@@ -130,4 +133,52 @@
   letter-spacing: 0px;
   padding: 5px 10px;
   background-color: $button;
+  cursor: pointer;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.event_icon {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  width: 25px;
+  height: 25px;
+  transition: transform 0.1s ease-in-out;
+  animation: fadein 0.5s ease-in-out;
+
+  &:hover {
+    transform: scale(1.5) rotate(10deg);
+  }
+}
+
+.event_icon_lg {
+  @extend .event_icon;
+  width: 30px;
+  height: 30px;
+}
+
+.event_description {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.event_right_col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  letter-spacing: 0px;
+}
+
+.event_title {
+  margin-bottom: -5px;
+  letter-spacing: 0px;
+  font-weight: 700;
 }

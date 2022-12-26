@@ -61,3 +61,10 @@
   height: auto;
   transform: translateX(-5px);
 }
+
+.copyright {
+  @extend .copyleft;
+  left: unset;
+  right: 10px;
+  text-align: right;
+}

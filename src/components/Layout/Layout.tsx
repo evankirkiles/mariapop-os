@@ -29,6 +29,14 @@ export default function Layout({ children }: LayoutProps) {
             <br />
             By Evan for Maria
           </div>
+          <div className={s.copyright}>
+            <img src={mpop} alt="mpop" className={s.mpop} />
+            MariapopOS v4.3
+            <br />
+            Christmas 2022
+            <br />
+            By Evan for Maria
+          </div>
           {children}
         </div>
       </div>

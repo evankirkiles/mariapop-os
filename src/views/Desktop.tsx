@@ -9,29 +9,29 @@ import Layout from "../components/Layout/Layout";
 import DesktopIcon from "../components/DesktopIcon/DesktopIcon";
 import Window from "../components/Window/Window";
 import s from "../styles/Desktop.module.scss";
-import { useUser } from "@supabase/auth-helpers-react";
 import { APPS, DESKTOP_APPS } from "../components/_apps";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { closeApp, openApp, selectApps, setAppPosition } from "../features/appSlice";
+import useProfile from "../hooks/useProfile";
 
 export default function Desktop() {
   const dispatch = useAppDispatch();
   const openApps = useAppSelector(selectApps);
 
   // if no user, keep login state open
-  const user = useUser();
+  const profile = useProfile();
   useEffect(() => {
-    if (!user) {
+    if (!profile) {
       dispatch(openApp("login"));
     } else {
       dispatch(closeApp("login"));
     }
-  }, [user, dispatch]);
+  }, [profile, dispatch]);
 
   return (
     <Layout>
       <div className={s.icon_container}>
-        {DESKTOP_APPS.map((app) => (
+        {DESKTOP_APPS.filter(({ permissions }) => true).map((app) => (
           <DesktopIcon key={app.name} app={app} />
         ))}
       </div>
