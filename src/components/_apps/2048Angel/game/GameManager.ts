@@ -210,12 +210,13 @@ export default class GameManager {
             if (merged.value > this.score) this.score = merged.value;
             if (merged.value === 2048) this.won = true;
             tiles[0].updatePosition(merged.pos);
-            moved = true;
           } else {
             // move tile 
             this.grid.cells[tiles[0].pos.x][tiles[0].pos.y] = null;
             this.grid.cells[positions.farthest.x][positions.farthest.y] = [tiles[0]];
             tiles[0].updatePosition(positions.farthest);
+          }
+          if (!this.positionsEqual(cell, tiles[0].pos)) {
             moved = true;
           }
         }
