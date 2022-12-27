@@ -1,0 +1,62 @@
+/*
+ * select.scss
+ * author: evan kirkiles
+ * created on Mon Dec 26 2022
+ * 2022 the nobot space, 
+ */
+@import "./mixins";
+
+.select_container {
+  flex: 1;
+  font-family: "Pixeloid Sans";
+  border-bottom: 1px solid $button;
+}
+
+.select_input {
+  flex: 1;
+  padding-bottom: 2px !important;
+  padding-top: 0px !important;
+  margin: 0px !important;
+
+  & input {
+    // letter-spacing: 2px !important;
+  }
+}
+
+.select_control {
+  background-color: rgba(0,0,0,0) !important;
+  border: none !important;
+  outline: none !important;
+  cursor: pointer !important;
+  min-height: unset !important;
+}
+
+.select_menu {
+  background-color: $background !important;
+  border: 3px solid $button !important;
+}
+
+.select_indicator_container {
+  padding: 3px !important;
+  color: $button !important;
+}
+
+.select_indicator_separator {
+  background-color: rgba(0,0,0,0) !important;
+}
+
+.select_option_multivalue {
+  background-color: $button !important;
+
+}
+
+.select_option_focused {
+  background-color: $button !important;
+  cursor: pointer !important;
+  letter-spacing: 0px !important;
+}
+
+.select_option {
+  cursor: pointer !important;
+  letter-spacing: 0px !important;
+}

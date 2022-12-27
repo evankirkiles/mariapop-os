@@ -20,7 +20,7 @@ export default function DesktopIcon({ app }: DesktopIconProps) {
     <div className={s.container} onClick={() => {
       dispatch(openApp(app.name));
     }}>
-      <img src={app.icon} className={s.icon} />
+      <img src={app.icon} className={s.icon} alt={app.name} />
       {app.title}
     </div>
   );

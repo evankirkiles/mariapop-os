@@ -21,6 +21,22 @@ export const getProfile = async (pid: string) => {
   return profile;
 }
 
+/**
+ * Lists the profiles in the database.
+ * @returns 
+ */
+export const listProfiles = async (search?: string) => {
+  let resp;
+  if (search) {
+    resp = await supabase.rpc("search_profiles", { p_search_term: search }).select('*');
+  } else {
+    resp = await supabase.from('profiles').select('*');
+  }
+  const { data: profiles, error } = resp;
+  if (error) throw error;
+  return profiles;
+}
+
 /* -------------------------------------------------------------------------- */
 /*                                 KEY FACTORY                                */
 /* -------------------------------------------------------------------------- */

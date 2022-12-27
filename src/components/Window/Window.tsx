@@ -9,7 +9,7 @@ import { Rnd } from "react-rnd";
 import { MouseEventHandler, useRef } from "react";
 import { OpenWindow } from "../../features/appSlice";
 
-type WindowProps = {
+export type WindowProps = {
   title: string;
   popupURL?: string;
   closable?: boolean;
@@ -18,6 +18,8 @@ type WindowProps = {
   draggable?: boolean;
   children?: React.ReactNode;
   defaultPos?: OpenWindow["position"];
+  minWidth?: string | number;
+  minHeight?: string | number;
   onClick?: () => void;
   onClose?: () => void;
   onTransform?: (transform: NonNullable<OpenWindow["position"]>) => void;
@@ -31,12 +33,15 @@ export default function Window({
   draggable = true,
   zIndex,
   children,
+  minWidth,
+  minHeight,
   onClick,
   onClose,
   onTransform,
   defaultPos,
 }: WindowProps) {
   const ref = useRef<Rnd>(null);
+  const uniqueId = useRef<string>((Math.random() + 1).toString(36).substring(2, 7));
 
   // on double click, maximize
   const doubleClickListener: MouseEventHandler = (e) => {
@@ -114,20 +119,22 @@ export default function Window({
           height: resizable ? window.innerHeight * 0.8 : "auto",
         }
       }
-      dragHandleClassName={s.title_bar}
+      dragHandleClassName={`handle_${uniqueId.current}`}
       bounds={"parent"}
       ref={ref}
       className={s.container}
       style={{
         zIndex,
       }}
+      minWidth={minWidth}
+      minHeight={minHeight}
       onDragStop={transformFinishListener}
       onResizeStop={transformFinishListener}
       onMouseDown={onClick}
       enableResizing={resizable}
       disableDragging={!draggable}
     >
-      <div className={s.title_bar} onClick={doubleClickListener}>
+      <div className={[s.title_bar, `handle_${uniqueId.current}`].join(' ')} onClick={doubleClickListener}>
         <div className={s.title_bar_background}>
           <div className={s.title_bar_background_inner}></div>
         </div>

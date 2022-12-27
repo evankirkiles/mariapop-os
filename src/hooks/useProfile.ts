@@ -5,7 +5,7 @@
  * 2022 the nobot space, 
  */
 
-import { useUser } from "@supabase/auth-helpers-react";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useQuery } from 'react-query';
 import { getProfile, profileKeys } from "../api/models/profiles";
 
@@ -14,13 +14,14 @@ import { getProfile, profileKeys } from "../api/models/profiles";
  * @returns 
  */
 export default function useProfile() {
-  const user = useUser();
+  const sessionContext = useSessionContext();
+  const user = sessionContext.session?.user;
   const profile = useQuery(
     profileKeys.getSelf(),
     () => getProfile(user!.id),
     {
       enabled: !!user
     }
-  )
-  return profile.data;
+  );
+  return { isLoading: sessionContext.isLoading, profile: profile.data };
 }

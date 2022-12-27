@@ -32,6 +32,7 @@ $shadow-size: 3px;
   height: 120px;
   transform: scale(1);
   animation: fade-up 0.3s ease-in-out;
+  user-select: auto;
 
   &:hover {
     // transform: rotate(-5deg);

@@ -13,6 +13,7 @@ import s from "./ChocoCal.module.scss";
 import { useQuery } from "react-query";
 import { calendarKeys, listCalendarEvents } from "../../../api/models/calendar";
 import React from "react";
+import type { CalendarEvent, CalendarEventWithCreator } from "../../../api/types";
 
 function calculateMonthInfo(date: Date) {
   return {
@@ -32,7 +33,7 @@ const ChocoCalApp: React.FC<AppProps> = () => {
     () => listCalendarEvents(viewDate.getMonth(), viewDate.getFullYear())
   );
   // parse events into month day-indexed map
-  const eventMap = events?.reduce<{ [key: number]: CalendarEvent[] }>(
+  const eventMap = events?.reduce<{ [key: number]: CalendarEventWithCreator[] }>(
     (acc, curr) => {
       // if repeating on every weekday, add on every matching one
       if (curr.repeat_every_weekday) {
@@ -41,7 +42,7 @@ const ChocoCalApp: React.FC<AppProps> = () => {
           i < daysInMonth;
           i += 7
         ) {
-          if (!acc[i]) acc[i] = [];
+          if (!acc[i]) acc[i] = [] as typeof events;
           acc[i].push(curr);
         }
       } else if (curr.repeat_every_month) {
@@ -53,13 +54,14 @@ const ChocoCalApp: React.FC<AppProps> = () => {
     {}
   );
 
-  const [dayEvents, setDayEvents] = useState<CalendarEvent[]>([]);
+  const [dayEvents, setDayEvents] = useState<CalendarEventWithCreator[]>([]);
   useEffect(() => {
     if (selectedDate && eventMap)
       setDayEvents(eventMap[selectedDate.getDate()] || []);
     else {
       setDayEvents([]);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDate]);
 
   // parse monthinfo into numbers to display in the calendar
@@ -161,7 +163,9 @@ const ChocoCalApp: React.FC<AppProps> = () => {
           className={s.selected_day}
           onClick={() => {
             if (selectedDate) {
-              setViewDate(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1));
+              setViewDate(
+                new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1)
+              );
             }
           }}
         >
@@ -175,7 +179,7 @@ const ChocoCalApp: React.FC<AppProps> = () => {
           "Click a day to view its events! <3"
         ) : (
           <>
-            {dayEvents.map((event, i) => (
+            {dayEvents.length > 0 ? dayEvents.map((event, i) => (
               <div className={s.event_description} key={`${event.id}_${i}`}>
                 <img
                   src={event.icon || ""}
@@ -183,11 +187,14 @@ const ChocoCalApp: React.FC<AppProps> = () => {
                   alt={`${event.title}`}
                 />
                 <div className={s.event_right_col}>
-                  <div className={s.event_title}>[{event.title}]</div>
+                  <div className={s.event_title_container}>
+                    <span className={s.event_title}>[{event.title}]</span>
+                    <span className={s.event_creator}>{" from "}{event.creator.name}</span>
+                  </div>
                   {event.contents}
                 </div>
               </div>
-            ))}
+            )) : "No events scheduled for this day"}
           </>
         )}
       </div>
@@ -197,8 +204,8 @@ const ChocoCalApp: React.FC<AppProps> = () => {
 
 export default {
   icon: icon,
-  title: "Doki Cal",
-  name: "DokiCal",
+  title: "Toki Cal",
+  name: "TokiCal",
   popuppable: true,
   component: React.memo(ChocoCalApp),
   notResizable: true,

@@ -11,7 +11,12 @@ import Window from "../components/Window/Window";
 import s from "../styles/Desktop.module.scss";
 import { APPS, DESKTOP_APPS } from "../components/_apps";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { closeApp, openApp, selectApps, setAppPosition } from "../features/appSlice";
+import {
+  closeApp,
+  openApp,
+  selectApps,
+  setAppPosition,
+} from "../features/appSlice";
 import useProfile from "../hooks/useProfile";
 
 export default function Desktop() {
@@ -19,19 +24,29 @@ export default function Desktop() {
   const openApps = useAppSelector(selectApps);
 
   // if no user, keep login state open
-  const profile = useProfile();
+  const { isLoading, profile } = useProfile();
   useEffect(() => {
-    if (!profile) {
-      dispatch(openApp("login"));
-    } else {
-      dispatch(closeApp("login"));
+    let userCheck: number;
+    if (!isLoading) {
+      userCheck = window.setTimeout(() => {
+        if (!profile) {
+          dispatch(openApp("login"));
+        } else {
+          dispatch(closeApp("login"));
+        }
+      }, 1500);
     }
-  }, [profile, dispatch]);
+    return () => clearTimeout(userCheck);
+  }, [isLoading, profile, dispatch]);
+
+  const permissionLevel = profile?.permissions || 1;
 
   return (
     <Layout>
       <div className={s.icon_container}>
-        {DESKTOP_APPS.filter(({ permissions }) => true).map((app) => (
+        {DESKTOP_APPS.filter(
+          ({ permissions }) => permissions & permissionLevel
+        ).map((app) => (
           <DesktopIcon key={app.name} app={app} />
         ))}
       </div>
@@ -47,7 +62,7 @@ export default function Desktop() {
             resizable={!appInst.notResizable}
             defaultPos={position}
             onTransform={(pos) => {
-              dispatch(setAppPosition({ app, position: pos}));
+              dispatch(setAppPosition({ app, position: pos }));
             }}
             onClose={() => dispatch(closeApp(app))}
             onClick={

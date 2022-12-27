@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from "react-query";
 import "./styles/globals.scss";
 import "./styles/fonts.scss";
 import Desktop from "./views/Desktop";
@@ -14,7 +14,7 @@ import { APPS } from "./components/_apps";
 import Window from "./components/Window/Window";
 import supabase from "./api/supabase";
 import SetPasswordView from "./views/SetPassword";
-
+import { ThemeContextProvider } from "./hooks/useThemeContext";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/set_password",
-    element: <SetPasswordView />
+    element: <SetPasswordView />,
   },
   ...APPS.map(({ name, title, component }) => ({
     path: name,
@@ -51,7 +51,9 @@ root.render(
       <PersistGate loading={null} persistor={persistedStore}>
         <SessionContextProvider supabaseClient={supabase}>
           <QueryClientProvider client={queryClient} contextSharing={true}>
-            <RouterProvider router={router} />
+            <ThemeContextProvider>
+              <RouterProvider router={router} />
+            </ThemeContextProvider>
           </QueryClientProvider>
         </SessionContextProvider>
       </PersistGate>

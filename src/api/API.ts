@@ -27,7 +27,7 @@ export interface Database {
         Row: {
           id: number
           created_at: string
-          creator: string
+          creator_id: string
           title: string
           contents: string | null
           repeat_every_year: boolean
@@ -43,7 +43,7 @@ export interface Database {
         Insert: {
           id?: number
           created_at?: string
-          creator: string
+          creator_id: string
           title: string
           contents?: string | null
           repeat_every_year?: boolean
@@ -59,7 +59,7 @@ export interface Database {
         Update: {
           id?: number
           created_at?: string
-          creator?: string
+          creator_id?: string
           title?: string
           contents?: string | null
           repeat_every_year?: boolean
@@ -78,27 +78,41 @@ export interface Database {
           id: number
           created_at: string
           contents: string | null
-          sender: string
-          recipient: string
+          sender_id: string
           previous: number | null
-          read: boolean
+          subject: string | null
         }
         Insert: {
           id?: number
           created_at?: string
           contents?: string | null
-          sender: string
-          recipient: string
+          sender_id: string
           previous?: number | null
-          read?: boolean
+          subject?: string | null
         }
         Update: {
           id?: number
           created_at?: string
           contents?: string | null
-          sender?: string
-          recipient?: string
+          sender_id?: string
           previous?: number | null
+          subject?: string | null
+        }
+      }
+      mail_recipients: {
+        Row: {
+          mail_id: number
+          recipient_id: string
+          read: boolean
+        }
+        Insert: {
+          mail_id: number
+          recipient_id: string
+          read?: boolean
+        }
+        Update: {
+          mail_id?: number
+          recipient_id?: string
           read?: boolean
         }
       }
@@ -132,6 +146,10 @@ export interface Database {
     Functions: {
       get_calendar_events: {
         Args: { p_month: number; p_year: number }
+        Returns: unknown
+      }
+      search_profiles: {
+        Args: { p_search_term: string }
         Returns: unknown
       }
     }
