@@ -8,7 +8,7 @@
 import React from "react";
 import Window, { WindowProps } from "../Window/Window";
 import ReactDOM from "react-dom";
-import useModalContext from "../../hooks/useModalContext";
+import useModalContext from "../../contexts/useModalContext";
 
 export default function Modal(props: WindowProps) {
   const { ref: desktop } = useModalContext();

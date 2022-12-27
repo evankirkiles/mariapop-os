@@ -8,6 +8,8 @@ import { useEffect, useRef } from "react";
 import s from "./2048Game.module.scss";
 import GameManager from "./game/GameManager";
 import React from "react";
+import { useAppSelector } from "../../../app/hooks";
+import { selectIsAppOnTop } from "../../../features/appSlice";
 
 type Game2048Props = {
   size: number;
@@ -40,7 +42,7 @@ export default React.memo(function Game2048({ size = 4 }: Game2048Props) {
         messageContainer: messageContainer.current!,
         retryButton: retryButton.current!,
         keepGoingButton: keepGoingButton.current!,
-        newGameButton: newGameButton.current!
+        newGameButton: newGameButton.current!,
       },
       {
         tile: s.tile,
@@ -54,10 +56,20 @@ export default React.memo(function Game2048({ size = 4 }: Game2048Props) {
       }
     );
     return () => {
-      // remove bindings on demount
-      manager.current!.inputManager.clearBindings();
+      // remove keylisteners on demount
+      manager.current!.inputManager.deafen();
     };
   }, [size]);
+
+  // only listen when app is on top
+  const appOnTop = useAppSelector(selectIsAppOnTop("2048angel"));
+  useEffect(() => {
+    if (appOnTop) {
+      manager.current!.inputManager.listen();
+    } else {
+      manager.current!.inputManager.deafen();
+    }
+  }, [appOnTop]);
 
   return (
     <>
@@ -74,8 +86,12 @@ export default React.memo(function Game2048({ size = 4 }: Game2048Props) {
         <div className={s.tile_container} ref={tileContainer}></div>
         <div className={s.game_message} ref={messageContainer}>
           <p>Game over!</p>
-          <span className={s.keep_going} ref={keepGoingButton}>Keep going</span>
-          <span className={s.retry} ref={retryButton}>Retry</span>
+          <span className={s.keep_going} ref={keepGoingButton}>
+            Keep going
+          </span>
+          <span className={s.retry} ref={retryButton}>
+            Retry
+          </span>
         </div>
       </div>
       {/* Join the angels! */}
@@ -107,7 +123,9 @@ export default React.memo(function Game2048({ size = 4 }: Game2048Props) {
       </div>
       <div className={s.instructions}>
         <div>Join the angels!</div>
-        <div className={s.restart_button} ref={newGameButton}>New game</div>
+        <div className={s.restart_button} ref={newGameButton}>
+          New game
+        </div>
       </div>
     </>
   );

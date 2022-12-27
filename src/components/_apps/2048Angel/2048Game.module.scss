@@ -50,7 +50,8 @@
   aspect-ratio: 1;
   height: auto;
   position: absolute;
-  transition: transform 0.1s ease-in-out;
+  transition: transform 100ms ease-out;
+  animation: appear 100ms ease-out;
 }
 
 .tile_inner {
@@ -64,8 +65,8 @@
 }
 
 @keyframes appear {
-  0% { opacity: 0; transform: scale(0); }
-  100% { opacity: 1; transform: scale(1); }
+  0% { opacity: 0;  }
+  100% { opacity: 1;  }
 }
 
 .tile_new {

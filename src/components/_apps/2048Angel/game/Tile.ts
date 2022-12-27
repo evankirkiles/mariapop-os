@@ -11,24 +11,45 @@ export type SerializedTile = { position: Pos, value: number };
 export default class Tile {
   pos: Pos;
   value: number;
+  element: HTMLDivElement;
 
-  previousPosition: Pos | null;
-  mergedFrom: Tile[] | null;
-
+  static container: HTMLDivElement;
+  static classes: {
+    tile: string;
+    tileInner: string;
+    tileSuper: string;
+    tileMerged: string;
+    tileNew: string;
+  };
   
   constructor(pos: Pos, value: number) {
     this.pos = pos;
     this.value = value || 2;
-    this.previousPosition = null;
-    this.mergedFrom = null;
+    const wrapper = document.createElement("div");
+    wrapper.classList.add(Tile.classes.tile);
+    if (value > 2048) wrapper.classList.add(Tile.classes.tileSuper);
+    const inner = document.createElement("div");
+    inner.classList.add(Tile.classes.tileInner);
+    const img = document.createElement("img");
+    img.src = `img/2048/${value}.png`;
+    inner.appendChild(img);
+    wrapper.appendChild(inner);
+    this.element = wrapper;
+    this.element.style.zIndex = "1"; // just added tiles go on top
+    this.element.style.transform = `translate(calc(100% * ${pos.x} + ${pos.x * 5}px), calc(100% * ${pos.y} + ${pos.y * 5}px))`;
+    Tile.container.appendChild(this.element);
   }
 
-  savePosition() {
-    this.previousPosition = { ...this.pos };
+  updatePosition(pos: Pos) {
+    this.pos = {...pos};
+    this.element.style.zIndex = "0"; // moving tiles operate underneath
+    this.element.style.transform = `translate(calc(100% * ${pos.x} + ${pos.x * 5}px), calc(100% * ${pos.y} + ${pos.y * 5}px))`;
   }
 
-  updatePosition(newPos: Pos) {
-    this.pos = {...newPos};
+  destroy() {
+    setTimeout(() => {
+      this.element.remove();
+    }, 100);
   }
 
   serialize(): SerializedTile {

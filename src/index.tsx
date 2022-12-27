@@ -14,7 +14,7 @@ import { APPS } from "./components/_apps";
 import Window from "./components/Window/Window";
 import supabase from "./api/supabase";
 import SetPasswordView from "./views/SetPassword";
-import { ThemeContextProvider } from "./hooks/useThemeContext";
+import { ThemeContextProvider } from "./contexts/useThemeContext";
 
 const queryClient = new QueryClient();
 

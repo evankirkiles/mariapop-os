@@ -5,8 +5,8 @@
  * 2022 the nobot space,
  */
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../app/store';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { RootState } from "../app/store";
 
 /* -------------------------------------------------------------------------- */
 /*                                  CONSTANTS                                 */
@@ -19,8 +19,8 @@ export interface OpenWindow {
     y: number;
     width: number | string;
     height: number | string;
-  }
-};
+  };
+}
 
 export type AppState = {
   openApps: OpenWindow[];
@@ -35,12 +35,14 @@ const initialState: AppState = {
 /* -------------------------------------------------------------------------- */
 
 export const appSlice = createSlice({
-  name: 'apps',
+  name: "apps",
   initialState,
   reducers: {
     // opens an app
     openApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
+      const indexOf = state.openApps.findIndex(
+        ({ app }) => app === action.payload
+      );
       if (indexOf === -1) {
         state.openApps.push({ app: action.payload });
       } else if (indexOf !== state.openApps.length - 1) {
@@ -49,26 +51,31 @@ export const appSlice = createSlice({
     },
     // closes an app
     closeApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
+      const indexOf = state.openApps.findIndex(
+        ({ app }) => app === action.payload
+      );
       if (indexOf !== -1) {
         state.openApps.splice(indexOf, 1);
       }
     },
     // makes an app active, bringing it to the front of the render stack
     selectApp: (state: AppState, action: PayloadAction<string>) => {
-      const indexOf = state.openApps.findIndex(({app}) => app === action.payload);
+      const indexOf = state.openApps.findIndex(
+        ({ app }) => app === action.payload
+      );
       if (indexOf !== -1) {
         state.openApps.push(state.openApps.splice(indexOf, 1)[0]);
       }
     },
     // saves an app's position (called on resize finish)
     setAppPosition: (state: AppState, action: PayloadAction<OpenWindow>) => {
-      const indexOf = state.openApps.findIndex(({app}) => app === action.payload.app);
+      const indexOf = state.openApps.findIndex(
+        ({ app }) => app === action.payload.app
+      );
       if (indexOf !== -1) {
         state.openApps[indexOf] = action.payload;
       }
-
-    }
+    },
   },
 });
 
@@ -76,6 +83,11 @@ export const appSlice = createSlice({
 /*                                   EXPORTS                                  */
 /* -------------------------------------------------------------------------- */
 
-export const { openApp, closeApp, selectApp, setAppPosition } = appSlice.actions;
-export const selectApps = (state: RootState): OpenWindow[] => state.apps.openApps;
+export const { openApp, closeApp, selectApp, setAppPosition } =
+  appSlice.actions;
+export const selectApps = (state: RootState): OpenWindow[] =>
+  state.apps.openApps;
+export const selectIsAppOnTop = (appName: string) => (state: RootState) =>
+  state.apps.openApps.length === 0 ||
+  state.apps.openApps[state.apps.openApps.length - 1].app === appName;
 export default appSlice.reducer;

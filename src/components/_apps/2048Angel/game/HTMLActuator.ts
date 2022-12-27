@@ -56,25 +56,15 @@ export default class HTMLActuator {
       terminated: boolean;
     }
   ) {
-    window.requestAnimationFrame(() => {
-      this.clearContainer(this.dom.tileContainer);
-      grid.cells.forEach((column) => {
-        column.forEach((cell) => {
-          if (cell) {
-            this.addTile(cell);
-          }
-        });
-      });
-      this.updateScore(metadata.score, metadata.points);
-      this.updateBestScore(metadata.bestScore, metadata.bestPoints);
-      if (metadata.terminated) {
-        if (metadata.over) {
-          this.message(false);
-        } else if (metadata.won) {
-          this.message(true);
-        }
+    this.updateScore(metadata.score, metadata.points);
+    this.updateBestScore(metadata.bestScore, metadata.bestPoints);
+    if (metadata.terminated) {
+      if (metadata.over) {
+        this.message(false);
+      } else if (metadata.won) {
+        this.message(true);
       }
-    });
+    }
   }
 
   continueGame() {
@@ -85,41 +75,6 @@ export default class HTMLActuator {
     while (container.firstChild) {
       container.removeChild(container.firstChild);
     }
-  }
-
-  addTile(tile: Tile, leaving = false) {
-    const wrapper = document.createElement("div");
-    const inner = document.createElement("div");
-    const img = document.createElement("img");
-    const position = tile.previousPosition || { ...tile.pos };
-    const classes = [this.classes.tile];
-    if (tile.value > 2048) classes.push(this.classes.tileSuper);
-    this.applyClasses(wrapper, classes);
-    this.stylePosition(wrapper, position);
-    inner.classList.add(this.classes.tileInner);
-    img.src = `img/2048/${tile.value}.png`;
-    inner.appendChild(img);
-    if (tile.previousPosition) {
-      // make sure that tile gets rendered previously first
-      window.requestAnimationFrame(() => {
-        this.stylePosition(wrapper, { ...tile.pos });
-      });
-    } else if (tile.mergedFrom) {
-      classes.push(this.classes.tileMerged);
-      inner.classList.add(this.classes.tileMerged);
-      // this.applyClasses(wrapper, classes);
-      // render the tiles that merged
-      tile.mergedFrom.forEach((merged) => {
-        this.addTile(merged);
-      });
-    } else {
-      inner.classList.add(this.classes.tileNew);
-      // this.applyClasses(wrapper, classes);
-    }
-    // add the inner part of the tile to its manager
-    wrapper.appendChild(inner);
-    // put the tile on the board
-    this.dom.tileContainer.appendChild(wrapper);
   }
 
   stylePosition(element: HTMLElement, pos: Pos) {

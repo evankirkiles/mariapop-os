@@ -9,7 +9,7 @@ import GridBackground from "../GridBackground/GridBackground";
 import MenuBar from "../MenuBar/MenuBar";
 import s from "./Layout.module.scss";
 import mpop from "../../assets/ICONS/mpop.png";
-import { ModalContextProvider } from "../../hooks/useModalContext";
+import { ModalContextProvider } from "../../contexts/useModalContext";
 import { useRef } from "react";
 
 type LayoutProps = {

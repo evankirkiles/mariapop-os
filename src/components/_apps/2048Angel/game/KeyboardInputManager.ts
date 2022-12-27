@@ -43,24 +43,6 @@ export default class KeyboardInputManager {
     this.buttons = buttons;
     this.boundKeyListener = (e) => this.keyListener(e);
     this.listen();
-  }
-
-  on(event: KeyEvent, callback: KeyCallback) {
-    if (!this.events[event]) this.events[event] = [];
-    this.events[event]!.push(callback);
-  }
-
-  emit(event: KeyEvent, data?: KeyCallbackData) {
-    const callbacks = this.events[event];
-    if (callbacks) {
-      callbacks.forEach((callback) => callback(data));
-    }
-  }
-
-  listen() {
-    this.listening = true;
-    // respond to direction keys
-    document.addEventListener("keydown", this.boundKeyListener, false);
 
     // game buttons
     this.buttons.retryButton.addEventListener("mousedown", (e) => this.restart(e), false);
@@ -95,6 +77,31 @@ export default class KeyboardInputManager {
     });
   }
 
+  on(event: KeyEvent, callback: KeyCallback) {
+    if (!this.events[event]) this.events[event] = [];
+    this.events[event]!.push(callback);
+  }
+
+  emit(event: KeyEvent, data?: KeyCallbackData) {
+    const callbacks = this.events[event];
+    if (callbacks) {
+      callbacks.forEach((callback) => callback(data));
+    }
+  }
+
+  listen() {
+    if (this.listening) return;
+    this.listening = true;
+    // respond to direction keys
+    document.addEventListener("keydown", this.boundKeyListener, false);
+  }
+
+  deafen() {
+    if (!this.listening) return;
+    this.listening = false;
+    document.removeEventListener("keydown", this.boundKeyListener, false);
+  }
+
   keyListener(e: KeyboardEvent) {
     // var modifiers = e.altKey || e.ctrlKey || e.metaKey || e.shiftKey;
     let mapped = MAP[e.key];
@@ -102,11 +109,6 @@ export default class KeyboardInputManager {
       e.preventDefault();
       this.emit("move", mapped);
     }
-  }
-
-  clearBindings() {
-    if (!this.listening) return;
-    document.removeEventListener("keydown", this.boundKeyListener, false);
   }
 
   restart(e: MouseEvent) {

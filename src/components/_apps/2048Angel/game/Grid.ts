@@ -6,7 +6,7 @@
  */
 import Tile, { Pos, SerializedTile } from "./Tile";
 
-export type Cell = Tile | null;
+export type Cell = Tile[] | null;
 export type SerializedGridState = {
   size: number;
   cells: (SerializedTile | null)[][];
@@ -40,7 +40,7 @@ export default class Grid {
       const row: Cell[] = (cells[x] = []);
       for (let y = 0; y < this.size; y++) {
         const tile = state[x][y];
-        row.push(tile ? new Tile(tile.position, tile.value) : null);
+        row.push(tile ? [new Tile(tile.position, tile.value)] : null);
       }
     }
     return cells;
@@ -92,8 +92,15 @@ export default class Grid {
     );
   }
 
+  mergeTile(tileMoving: Tile, tileStill: Tile) {
+    const merged = new Tile(tileStill.pos, tileStill.value * 2);
+    this.cells[tileMoving.pos.x][tileMoving.pos.y] = null;
+    this.cells[tileStill.pos.x][tileStill.pos.y] = [merged, tileMoving, tileStill];
+    return merged;
+  }
+
   insertTile(tile: Tile) {
-    this.cells[tile.pos.x][tile.pos.y] = tile;
+    this.cells[tile.pos.x][tile.pos.y] = [tile];
   }
 
   removeTile(tile: Tile) {
@@ -105,7 +112,7 @@ export default class Grid {
     for (let x = 0; x < this.size; x++) {
       const row: (SerializedTile | null)[] = (cells[x] = []);
       for (let y = 0; y < this.size; y++) {
-        row.push(this.cells[x][y] ? this.cells[x][y]!.serialize() : null);
+        row.push(this.cells[x][y] ? this.cells[x][y]![0].serialize() : null);
       }
     }
     return {
